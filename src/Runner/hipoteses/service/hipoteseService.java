@@ -3,9 +3,15 @@ package Runner.hipoteses.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,18 +37,21 @@ public class hipoteseService {
 	EmpresaService empresaService;
 	@Autowired
 	SelecaoService selecaoService;
-	
+	ExecutorService executor;
 	GeradorRandomico gerador = new GeradorRandomico();
 	
 public void gerarHipoteseThread(String nomeEmpresa, int ano){	
 		SelecaoService selecao = new SelecaoService(); 
 		Hipotese novo = new Hipotese();
+		System.out.println(novo +" - iniciado!");
+		novo.setAno(ano);
 		Empresa empresa = empresaService.get(nomeEmpresa);
 		List<Registro> registros = registroRepo.getRegistroByEmpresa(empresa);
 		novo.setEmpresa(empresa);
 		novo.setCromossomos(gerarCromossomos(novo,ano));
 		selecao.classificarHipotese(novo,registros);																
 		save(novo);
+		System.out.println(novo + "- salvo!");
 	}
 public synchronized void save(Hipotese novo){
 	try {
@@ -59,7 +68,7 @@ public synchronized void save(Hipotese novo){
 			List<Registro> registros = registroRepo.getRegistroByEmpresaAndAnoOrderByCromossomoDataCotacaoAsc(novo.getEmpresa(),ano);
 			int periodo = 0;
 			while(periodo<=0) {
-				periodo = gerador.nextInt(0, registros.size()-1);
+				periodo = gerador.nextInt(0, registros.size()-2);
 			}
 			int inicioPeriodo = gerador.nextInt(0, periodo);
 			novo.setPeriodoFim(periodo);
@@ -119,9 +128,24 @@ public synchronized void save(Hipotese novo){
 	public void deleteAll() {
 		hipoteseRepo.deleteAll();		
 	}
-	public List<Hipotese> buscarHipotesesMaisAptasByEmpresa(String nomeEmpresa) {		
-		List<Hipotese> hipoteses = hipoteseRepo.getHipoteseByEmpresaOrderByIndice(empresaService.get(nomeEmpresa));
-		hipoteses = hipoteses.subList(0, (int) (hipoteses.size()*0.1)); 
-		return hipoteses;
+	public List<Hipotese> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
+		try {
+			List<Hipotese> hipoteses = hipoteseRepo.findTop100ByEmpresaOrderByIndiceDesc(empresa);			
+			return  hipoteses;			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}	
+	private Hipotese reiniciaHipotese(Hipotese h) {
+		try {
+			Hipotese nova = new Hipotese(h.getCromossomo());
+			nova.setEmpresa(h.getEmpresa());
+			nova.setPeriodo(h.getCromossomo().size());
+			return nova;			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return h;
+	}
 }

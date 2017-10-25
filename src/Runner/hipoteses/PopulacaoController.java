@@ -25,16 +25,14 @@ public class PopulacaoController {
 	populacaoService populacaoService;
 	@Autowired
 	TesteDeDesempenho desempenhoService;
-	@PostMapping("/post/{nomeEmpresa}/{ano}")
-	public void createPopulacao(@PathVariable String nomeEmpresa, @PathVariable int ano) {
-		//populacaoService.gerarPopulacao(1000, string);
-		Thread gerar= new Thread("gerar") {
-			@Override
-			public void run() {
-				populacaoService.gerarPopulacaoThread(1, nomeEmpresa, ano);
+	@PostMapping("/post/{nomeEmpresa}/{ano}/{tamanho}")
+	public ResponseEntity<String> createPopulacao(@PathVariable String nomeEmpresa, @PathVariable int ano,@PathVariable int tamanho) {		
+			try {
+				populacaoService.gerarPopulacaoThread(tamanho, nomeEmpresa, ano);
+			}catch(Exception e) {
+				return ResponseEntity.badRequest().body("Não foi possivel gerar a população");
 			}
-		};
-		gerar.start();
+			return ResponseEntity.ok().build();
 	}
 	@GetMapping("/get/{nomeEmpresa}")
 	public Populacao getPopulacao(@PathVariable String string) {
@@ -43,7 +41,9 @@ public class PopulacaoController {
 	@DeleteMapping
 	public ResponseEntity<String> deleteAll() {
 		try {
-			populacaoService.deleteAll();
+			if(populacaoService.quantidadeDeHipoteses() > 0) {
+				populacaoService.deleteAll();				
+			}
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("Não foi possível excluir o resgistro");
 		}
@@ -54,9 +54,14 @@ public class PopulacaoController {
 		return desempenhoService.testarPopulacao(new Date(data), nomeEmpresa);
 	}
 	
-	@PostMapping("/test/{nomeEmpresa}}")
-	public void nextGen(@PathVariable String nomeEmpresa) {
-		crossOver.proximaGeracao(nomeEmpresa);
+	@PostMapping("/test/{nomeEmpresa}/{ano}")
+	public ResponseEntity<String> nextGen(@PathVariable String nomeEmpresa,@PathVariable int ano) {
+		try {
+			crossOver.proximaGeracao(nomeEmpresa, ano);			
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body("não foi possivel gerar a proxima geração");
+		}
+		return ResponseEntity.ok().build();
 	}
 	
 }

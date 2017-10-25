@@ -2,32 +2,65 @@ package Runner.crossOver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Runner.empresa.Empresa;
+import Runner.empresa.EmpresaRepository;
 import Runner.hipoteses.Hipotese;
+import Runner.hipoteses.HipoteseRepository;
 import Runner.hipoteses.service.hipoteseService;
+import Runner.historicos.Registro;
+import Runner.historicos.RegistroRepository;
 import Runner.random.GeradorRandomico;
+import Runner.selecao.SelecaoService;
 
 @Service
 public class CrossOverService {
 	@Autowired
 	hipoteseService hipoteseService;
+	@Autowired
+	HipoteseRepository hipoteseRepo;
+	@Autowired
+	SelecaoService selecao;
+	@Autowired
+	RegistroRepository registroRepo;
+	@Autowired
+	EmpresaRepository empresaRepo;
 	int tamanho;
+	Empresa empresa;
+	List<Registro> registros;
 	GeradorRandomico random;
+	ExecutorService executor;
+	int ano;
 	public CrossOverService() {
-		this.random = new GeradorRandomico();
+		this.random = new GeradorRandomico();				
 	}
-	public void proximaGeracao(String nomeEmpresa) {
-		List<Hipotese> hipoteses = hipoteseService.buscarHipotesesMaisAptasByEmpresa(nomeEmpresa);
+	public void proximaGeracao(String nomeEmpresa, int ano) {
+		System.out.println("iniciando processo de evolução...");
+		this.ano = ano;
+		empresa = empresaRepo.getOne(nomeEmpresa);
+		this.registros = registroRepo.getRegistroByEmpresaAndAnoOrderByCromossomoDataCotacaoAsc(empresa, ano);
+		System.out.println("registros carregados.");
+		List<Hipotese> hipoteses = hipoteseService.buscarHipotesesMaisAptasByEmpresa(empresa);
+		System.out.println("hipoteses carregadas na memoria.");
+		hipoteseService.deleteAll();
+		System.out.println("hipoteses deletadas da base de dados.");
+		tamanho = hipoteses.size();
+		//hipoteseService.deleteAll();
 		List<Integer> rank = new ArrayList<Integer>();
 		inicializaRank(hipoteses,rank);
+		System.out.println("rank carregado.");
 		hipoteses = selecionar(hipoteses,rank);
-		List<Hipotese> auxiliar = new ArrayList<Hipotese>();
+		System.out.println("hipoteses selecionadas.");
+		List<Hipotese> auxiliar = new ArrayList<Hipotese>();		
 		inicializaListAuxiliar(hipoteses, auxiliar);
-		cruzarHipoteses(hipoteses,auxiliar);		
+		System.out.println("lista auxiliar carregada");
+		cruzarHipoteses(hipoteses,auxiliar);				
 	}
 	private void inicializaRank(List<Hipotese> hipoteses, List<Integer> rank) {
 		Integer vezes = 0;
@@ -48,7 +81,7 @@ public class CrossOverService {
 	public List<Hipotese> selecionar(List<Hipotese> hipoteses, List<Integer> rank){
 		GeradorRandomico random = new GeradorRandomico();
 		List<Hipotese> resultado = new ArrayList<>();
-		for(int i = 0; i<tamanho;i++){
+		for(int i = 0; i<tamanho*10;i++){
 			resultado.add(hipoteses.get(rank.get( random.nextInt(0, rank.size()))));
 		}
 		
@@ -64,10 +97,33 @@ public class CrossOverService {
 		}
 		return resultado;
 	}
-	private void cruzarHipoteses(List<Hipotese> selecionadas, List<Hipotese> auxiliar) {
-		for(int i = 0; i< selecionadas.size();i++){
-			
+	private void cruzarHipoteses(List<Hipotese> selecionadas, List<Hipotese> auxiliar) {		
+		try {			
+
+			executor = Executors.newFixedThreadPool(15);
+			System.out.println("iniciando cruzamento de hipoteses...");
+			for(int index = 0; index<selecionadas.size();index++) {				
+				if(selecionadas.get(index) == null || auxiliar.get(index) == null){
+					throw new NullPointerException("Hipotese nula!");
+				}
+				executor.execute(
+						new Cruzar(selecionadas.get(index), auxiliar.get(index))
+						.comReposotorio(hipoteseRepo)
+						.comService(selecao)
+						.buscarRegistros(registroRepo)
+						);			
+			}		
+			try {
+				executor.shutdown();
+				executor.awaitTermination(1, TimeUnit.HOURS);					
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("finalizada evolução.");
 	}
 	private void inicializaListAuxiliar(List<Hipotese> hipoteses, List<Hipotese> auxiliar){
 		List<Hipotese> aux2 = new ArrayList<Hipotese>();
@@ -80,21 +136,5 @@ public class CrossOverService {
 			aux2.remove(index);
 		}
 		
-	}
-	private List<Integer> criarRoleta(List<Hipotese> selecionadas) {
-		List<Integer> resultado = new ArrayList<Integer>();
-		for(int y = 0; y < selecionadas.size();y++) {
-			int contador = selecionadas.get(y).getIndice().intValue();
-			for(int i = 0; i < contador; i++) {
-				resultado.add(y);
-			}
-		}
-		return resultado;
-	}
-	private void gerarFilhos(List<Hipotese> hip, int tamanho) {
-		List<Hipotese> resultado = new ArrayList<Hipotese>();
-		while(resultado.size()< tamanho) {
-			
-		}
-	}
+	}	
 }

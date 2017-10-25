@@ -3,10 +3,13 @@ package Runner.hipoteses;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import Runner.cromossomo.Cromossomo;
@@ -16,7 +19,7 @@ import Runner.empresa.Empresa;
 public class Hipotese {
 	@Id
 	private String id;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Embedded
 	private List<Cromossomo> cromossomos;
 	@ManyToOne
@@ -31,19 +34,27 @@ public class Hipotese {
 	}
 	
 	public Hipotese() {
-		geradorID();
+		geradorID();	
+		inicializa();
+	}
+	private void inicializa() {
 		this.indice = 0.0;
 		this.up = 0.0;
 		this.down = 0.0;
 	}
 	public Hipotese(Hipotese h) {
+		inicializa();
 		this.id = h.id;
 		this.cromossomos = h.cromossomos;
 		this.empresa = h.empresa;
 		this.indice = h.indice;
+		this.up = h.getUp();
+		this.down = h.getDown();
+		
 	}
 	
 	public Hipotese(List<Cromossomo> c) {
+		inicializa();
 		geradorID();
 		this.geracao = 1;
 		cromossomos = c;

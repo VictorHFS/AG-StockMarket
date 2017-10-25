@@ -16,11 +16,14 @@ import Runner.random.GeradorRandomico;
 public class SelecaoService {
 	public SelecaoService() {
 	} 
-	public synchronized void classificarHipotese(Hipotese hipotese,List<Registro> registros) {		
+	public  void classificarHipotese(Hipotese hipotese,List<Registro> registros) {		
 			try {
 				GeradorRandomico random = new GeradorRandomico();
-				ExecutorService classificarExecutor = Executors.newFixedThreadPool(100);										
-				int periodo = hipotese.getPeriodo();					
+				ExecutorService classificarExecutor = Executors.newFixedThreadPool(50);										
+				int periodo = hipotese.getPeriodo();	
+				if(periodo > 500) {
+					System.out.println("debug");
+				}
 				int inicio,fim;
 				for (int i = 0; i < registros.size(); i++) {
 					inicio = i;
@@ -38,10 +41,10 @@ public class SelecaoService {
 				}				
 				try {
 					classificarExecutor.shutdown();
-					classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);
-					//notify();
+					classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);					
+					hipotese.setIndice(hipotese.getUp() - hipotese.getDown());
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					e.printStackTrace();					
 				}				
 			}catch(Exception e) {
 				e.printStackTrace();
