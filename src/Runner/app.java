@@ -35,9 +35,9 @@ public class app implements ApplicationRunner {
 		//historicoController.gerarHistorico("C:/Users/Usuario/Desktop/2015.txt");
 		//populacaoController.createPopulacao("SABESP");
 		//System.out.println(populacaoController.createPopulacao("PETRE",2015,1));		
-		//System.out.println(populacaoController.deleteAll());					
-		//System.out.println(populacaoController.createPopulacao("POSITIVO IN",2015,1000));		
-		for(int i= 0; i<15 ;i++) {
+		System.out.println(populacaoController.deleteAll());					
+		System.out.println(populacaoController.createPopulacao("POSITIVO IN",2015,1000));		
+		for(int i= 0; i<10 ;i++) {
 			System.out.println(populacaoController.nextGen("POSITIVO IN",2015));			
 		}
 		//System.out.println(populacaoController.buscarPopulacao("PETRE"));

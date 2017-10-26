@@ -68,7 +68,7 @@ public synchronized void save(Hipotese novo){
 			List<Registro> registros = registroRepo.getRegistroByEmpresaAndAnoOrderByCromossomoDataCotacaoAsc(novo.getEmpresa(),ano);
 			int periodo = 0;
 			while(periodo<=0) {
-				periodo = gerador.nextInt(0, registros.size()-2);
+				periodo = gerador.nextInt(0, 150);
 			}
 			int inicioPeriodo = gerador.nextInt(0, periodo);
 			novo.setPeriodoFim(periodo);

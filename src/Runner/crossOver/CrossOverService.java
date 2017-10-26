@@ -16,6 +16,7 @@ import Runner.hipoteses.HipoteseRepository;
 import Runner.hipoteses.service.hipoteseService;
 import Runner.historicos.Registro;
 import Runner.historicos.RegistroRepository;
+import Runner.mutacao.mutacaoService;
 import Runner.random.GeradorRandomico;
 import Runner.selecao.SelecaoService;
 
@@ -31,6 +32,8 @@ public class CrossOverService {
 	RegistroRepository registroRepo;
 	@Autowired
 	EmpresaRepository empresaRepo;
+	@Autowired
+	mutacaoService mutacao;
 	int tamanho;
 	Empresa empresa;
 	List<Registro> registros;
@@ -72,7 +75,7 @@ public class CrossOverService {
 		}		
 	}
 	private int rankearDouble(Double ind){
-		int resultado = ind.intValue()*100;		
+		int resultado = ind.intValue();		
 		if(resultado == 0) {
 			return 1;
 		}else {
@@ -115,6 +118,7 @@ public class CrossOverService {
 						new Cruzar(selecionadas.get(index), auxiliar.get(index))
 						.comReposotorio(hipoteseRepo)
 						.comService(selecao)
+						.comMutacao(mutacao)
 						.buscarRegistros(registroRepo)
 						);			
 			}		

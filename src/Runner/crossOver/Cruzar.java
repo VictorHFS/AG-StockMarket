@@ -10,6 +10,7 @@ import Runner.hipoteses.Hipotese;
 import Runner.hipoteses.HipoteseRepository;
 import Runner.historicos.Registro;
 import Runner.historicos.RegistroRepository;
+import Runner.mutacao.mutacaoService;
 import Runner.random.GeradorRandomico;
 import Runner.selecao.SelecaoService;
 
@@ -19,6 +20,7 @@ public class Cruzar extends Thread{
 	private GeradorRandomico random;
 	private SelecaoService selecao;
 	private List<Registro> registros;
+	private mutacaoService mutacao;
 	public Cruzar(Hipotese hipotese, Hipotese auxiliar) {
 		this.random = new GeradorRandomico();
 		this.hipotese = hipotese;
@@ -44,7 +46,7 @@ public class Cruzar extends Thread{
 			novo.setAno(hipotese.getAno());
 			novo.setEmpresa(hipotese.getEmpresa());
 			novo.setGeracao(hipotese.getGeracao()+1);
-			novo.setPeriodo(resultado.size());
+			novo.setPeriodo(resultado.size());			
 			selecao.classificarHipotese(novo, registros);
 			System.out.println(novo+" classificado.");
 			int count = 0;
@@ -80,6 +82,10 @@ public class Cruzar extends Thread{
 	}
 	public Cruzar buscarRegistros(RegistroRepository repo) {
 		this.registros = repo.getRegistroByEmpresaAndAnoOrderByCromossomoDataCotacaoAsc(hipotese.getEmpresa(), hipotese.getAno());
+		return this;
+	}
+	public Cruzar comMutacao(mutacaoService mutacao) {
+		this.mutacao = mutacao;
 		return this;
 	}
 }

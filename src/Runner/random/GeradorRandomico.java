@@ -16,6 +16,11 @@ public class GeradorRandomico   {
 		Random rand = new Random();
 		return rand.nextDouble();
 	}
+	
+	public boolean nextBool() {
+		Random rand = new Random();
+		return rand.nextBoolean();		
+	}
 
 
 }

@@ -45,9 +45,17 @@ public class SelecaoService {
 					classificarExecutor.shutdown();
 					classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);
 					if(execuções == 0) {execuções = 1;}
-					hipotese.setUp(hipotese.getUp()/execuções );
-					hipotese.setDown(hipotese.getDown()/execuções);
-					hipotese.setIndice(hipotese.getUp() - hipotese.getDown());
+					if(hipotese.getDown() == 0 || hipotese.getUp() == 0) {
+						hipotese.setDown(0.0);
+						hipotese.setUp(0.0);
+						hipotese.setIndice(0.0);
+					}else {
+						hipotese.setUp(hipotese.getUp()/execuções );
+						hipotese.setDown(hipotese.getDown()/execuções);
+						hipotese.setIndice(hipotese.getUp() - hipotese.getDown());												
+					}
+				
+				
 				} catch (InterruptedException e) {
 					e.printStackTrace();					
 				}				
