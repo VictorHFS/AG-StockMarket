@@ -130,7 +130,7 @@ public synchronized void save(Hipotese novo){
 	}
 	public List<Hipotese> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
 		try {
-			List<Hipotese> hipoteses = hipoteseRepo.findTop100ByEmpresaOrderByIndiceDesc(empresa);			
+			List<Hipotese> hipoteses = hipoteseRepo.findTop200ByEmpresaOrderByIndiceDesc(empresa);			
 			return  hipoteses;			
 		}catch(Exception e) {
 			e.printStackTrace();

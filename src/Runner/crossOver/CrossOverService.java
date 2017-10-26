@@ -72,16 +72,21 @@ public class CrossOverService {
 		}		
 	}
 	private int rankearDouble(Double ind){
-		if(ind<0){
-			return -ind.intValue();
-		}else{
-			return ind.intValue();
+		int resultado = ind.intValue()*100;		
+		if(resultado == 0) {
+			return 1;
+		}else {
+			if(resultado<0){
+				return -resultado;
+			}else{
+				return resultado;
+			}			
 		}
 	}
 	public List<Hipotese> selecionar(List<Hipotese> hipoteses, List<Integer> rank){
 		GeradorRandomico random = new GeradorRandomico();
 		List<Hipotese> resultado = new ArrayList<>();
-		for(int i = 0; i<tamanho*10;i++){
+		for(int i = 0; i<tamanho*5;i++){
 			resultado.add(hipoteses.get(rank.get( random.nextInt(0, rank.size()))));
 		}
 		
