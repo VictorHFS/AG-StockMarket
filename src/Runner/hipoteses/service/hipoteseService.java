@@ -43,7 +43,6 @@ public class hipoteseService {
 public void gerarHipoteseThread(String nomeEmpresa, int ano){	
 		SelecaoService selecao = new SelecaoService(); 
 		Hipotese novo = new Hipotese();
-		System.out.println(novo +" - iniciado!");
 		novo.setAno(ano);
 		Empresa empresa = empresaService.get(nomeEmpresa);
 		List<Registro> registros = registroRepo.getRegistroByEmpresa(empresa);
@@ -51,14 +50,12 @@ public void gerarHipoteseThread(String nomeEmpresa, int ano){
 		novo.setCromossomos(gerarCromossomos(novo,ano));
 		selecao.classificarHipotese(novo,registros);																
 		save(novo);
-		System.out.println(novo + "- salvo!");
 	}
 public synchronized void save(Hipotese novo){
 	try {
 		//wait();
 		novo.setIndice(novo.getUp()-novo.getDown());		
 		hipoteseRepo.save(novo);
-		System.out.println("Hipotese - "+novo.getId()+" - salva!");		
 	}catch(Exception e) {
 		e.printStackTrace();
 	}
@@ -130,7 +127,7 @@ public synchronized void save(Hipotese novo){
 	}
 	public List<Hipotese> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
 		try {
-			List<Hipotese> hipoteses = hipoteseRepo.findTop200ByEmpresaOrderByIndiceDesc(empresa);			
+			List<Hipotese> hipoteses = hipoteseRepo.findTop1000ByEmpresaOrderByIndiceDesc(empresa);			
 			return  hipoteses;			
 		}catch(Exception e) {
 			e.printStackTrace();

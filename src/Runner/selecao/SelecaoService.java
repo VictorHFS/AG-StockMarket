@@ -20,7 +20,7 @@ public class SelecaoService {
 			try {
 				int execuções = 0;
 				GeradorRandomico random = new GeradorRandomico();
-				ExecutorService classificarExecutor = Executors.newFixedThreadPool(50);										
+				ExecutorService classificarExecutor = Executors.newFixedThreadPool(10);										
 				int periodo = hipotese.getPeriodo();	
 				if(periodo > 500) {
 					System.out.println("debug");

@@ -28,7 +28,9 @@ public class PopulacaoController {
 	@PostMapping("/post/{nomeEmpresa}/{ano}/{tamanho}")
 	public ResponseEntity<String> createPopulacao(@PathVariable String nomeEmpresa, @PathVariable int ano,@PathVariable int tamanho) {		
 			try {
+				System.out.println("Criando população...");
 				populacaoService.gerarPopulacaoThread(tamanho, nomeEmpresa, ano);
+				System.out.println("População criada!");
 			}catch(Exception e) {
 				return ResponseEntity.badRequest().body("Não foi possivel gerar a população");
 			}
@@ -57,7 +59,11 @@ public class PopulacaoController {
 	@PostMapping("/test/{nomeEmpresa}/{ano}")
 	public ResponseEntity<String> nextGen(@PathVariable String nomeEmpresa,@PathVariable int ano) {
 		try {
-			crossOver.proximaGeracao(nomeEmpresa, ano);			
+			for(int i = 0; i<10;i++){
+				System.out.println("Evoluindo para a "+i+1+"º geração...");
+				crossOver.proximaGeracao(nomeEmpresa, ano);		
+				System.out.println("Evolução concluida!");
+			}
 		}catch(Exception e) {
 			return ResponseEntity.badRequest().body("não foi possivel gerar a proxima geração");
 		}

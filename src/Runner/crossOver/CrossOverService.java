@@ -108,7 +108,7 @@ public class CrossOverService {
 	private void cruzarHipoteses(List<Hipotese> selecionadas, List<Hipotese> auxiliar) {		
 		try {			
 
-			executor = Executors.newFixedThreadPool(15);
+			executor = Executors.newFixedThreadPool(10);
 			System.out.println("iniciando cruzamento de hipoteses...");
 			for(int index = 0; index<selecionadas.size();index++) {				
 				if(selecionadas.get(index) == null || auxiliar.get(index) == null){

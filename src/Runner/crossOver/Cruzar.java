@@ -63,7 +63,7 @@ public class Cruzar extends Thread{
 	}
 	public List<Cromossomo> cortar(List<Cromossomo> cromossomos, boolean inicio){
 		Hibernate.initialize(cromossomos);
-		int pontoDeCorte = random.nextInt(1, cromossomos.size()-1);
+		int pontoDeCorte = random.nextInt(1,(int) (cromossomos.size()*0.7));
 		List<Cromossomo> resultado;
 		if(inicio) {
 			resultado = cromossomos.subList(0, pontoDeCorte);
