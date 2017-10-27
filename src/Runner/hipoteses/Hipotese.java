@@ -3,13 +3,11 @@ package Runner.hipoteses;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import Runner.cromossomo.Cromossomo;
@@ -28,6 +26,7 @@ public class Hipotese {
 	private int geracao;
 	private int periodoInicio,periodoFim,periodo;
 	private int ano;
+	private int acerto,erro;
 	
 	private void geradorID() {
 		this.id = UUID.randomUUID().toString();
@@ -41,6 +40,8 @@ public class Hipotese {
 		this.indice = 0.0;
 		this.up = 0.0;
 		this.down = 0.0;
+		this.acerto = 0;
+		this.erro = 0;
 	}
 	public Hipotese(Hipotese h) {
 		inicializa();
@@ -147,6 +148,26 @@ public class Hipotese {
 
 	public void setAno(int ano) {
 		this.ano = ano;
+	}
+
+	public int getAcerto() {
+		return acerto;
+	}
+
+	public void setAcerto(int acerto) {
+		this.acerto = acerto;
+	}
+
+	public int getErro() {
+		return erro;
+	}
+
+	public void setErro(int erro) {
+		this.erro = erro;
+	}
+
+	public List<Cromossomo> getCromossomos() {
+		return cromossomos;
 	}
 
 }

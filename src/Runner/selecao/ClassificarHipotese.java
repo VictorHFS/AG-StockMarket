@@ -67,6 +67,7 @@ public class ClassificarHipotese extends Thread{
 						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());				
 				}
 				hipotese.setUp(indice/14);
+				hipotese.setAcerto(hipotese.getAcerto()+1);				
 			}else{
 				indice = hipotese.getDown();
 				if(indice == null) {indice = 0.0;}
@@ -88,6 +89,7 @@ public class ClassificarHipotese extends Thread{
 						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());								
 				}
 				hipotese.setDown(indice/14);
+				hipotese.setErro(hipotese.getErro()+1);
 			}						
 		}catch(Exception e) {
 			e.printStackTrace();
