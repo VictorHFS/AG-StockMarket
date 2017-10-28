@@ -29,6 +29,17 @@ public class TesteDeDesempenho {
 	private List<Cromossomo> historicos;
 	private RelatorioDeDesempenho relatorio;	
 	Hipotese atual;
+	public TesteDeDesempenho() {
+		//as hipoteses devem estar ordenadas por periodo
+		this.relatorio = new RelatorioDeDesempenho();
+	}
+	public void testarPopulacao(int ano,String nomeEmpresa){
+		//as hipoteses devem estar ordenadas por periodo
+		Empresa empresa = empresaRepo.getOne(nomeEmpresa);
+		inicializaHistorico(registroRepo.getRegistroByEmpresa(empresa));
+		List<Hipotese> hipoteses = hipoteseRepo.getHipoteseByEmpresaOrderByPeriodo(empresa);
+		detectarHipoteseSimilar(hipoteses);
+	}
 	private void inicializaHistorico(List<Registro> registros) {
 		try {
 			historicos = new ArrayList<Cromossomo>();
@@ -38,35 +49,24 @@ public class TesteDeDesempenho {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	public TesteDeDesempenho() {
-		//as hipoteses devem estar ordenadas por periodo
-		this.relatorio = new RelatorioDeDesempenho();
-	}
-	private boolean similar(Hipotese hipotese, List<Registro> registros) { 
-		
-		
-		
-		
-		
-		
-		return true;
-	}
+	}	
 	public Double similaridade(Hipotese hipotese) {				
 		return compararComDadosReais(hipotese);
 	}
 	private Hipotese detectarHipoteseSimilar(List<Hipotese> hipoteses){
-		if(similaridade(atual)>similaridade(hipoteses.get(0))) {
-			
+		if(hipoteses.size()>0) {
+			if(similaridade(atual)>similaridade(hipoteses.get(0))) {
+				hipoteses.remove(0);
+				return detectarHipoteseSimilar(hipoteses);
+			}else {
+				atual = hipoteses.get(0);
+				hipoteses.remove(0);
+				return detectarHipoteseSimilar(hipoteses);
+			}						
+		}else {
+			return atual;
 		}
-	}
-	public void testarPopulacao(int ano,String nomeEmpresa){
-		//as hipoteses devem estar ordenadas por periodo
-		Empresa empresa = empresaRepo.getOne(nomeEmpresa);
-		inicializaHistorico(registroRepo.getRegistroByEmpresa(empresa));
-		List<Hipotese> hipoteses = hipoteseRepo.getHipoteseByEmpresaOrderByPeriodo(empresa);
-		
-	}
+	}	
 	private Double compararComDadosReais(Hipotese hipotese) {
 		try {
 			Double indice = 0.0;
