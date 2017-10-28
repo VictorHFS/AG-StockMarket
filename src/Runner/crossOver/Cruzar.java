@@ -45,7 +45,7 @@ public class Cruzar extends Thread{
 			novo.setGeracao(hipotese.getGeracao()+1);
 			novo.setPeriodo(resultado.size());			
 			mutacao.mutar(novo);
-			selecao.classificarHipotese(novo, registros);
+			selecao.classificar(novo, registros);
 			int count = 0;
 			if(novo.getIndice() == null) {
 				System.out.println("indice nulo!");

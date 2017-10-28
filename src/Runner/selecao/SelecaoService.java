@@ -14,51 +14,49 @@ import Runner.random.GeradorRandomico;
 
 @Service
 public class SelecaoService {
+	GeradorRandomico random;
+	ExecutorService classificarExecutor;	
 	public SelecaoService() {
+		classificarExecutor = Executors.newSingleThreadExecutor();
+		random = new GeradorRandomico();
 	} 
-	public  void classificarHipotese(Hipotese hipotese,List<Registro> registros) {		
-			try {
-				GeradorRandomico random = new GeradorRandomico();
-				ExecutorService classificarExecutor = Executors.newFixedThreadPool(10);										
-				int periodo = hipotese.getPeriodo();	
-				if(periodo > 500) {
-					System.out.println("debug");
-				}
-				int inicio,fim;
-				for (int i = 0; i < registros.size(); i++) {
-					inicio = i;
-					fim = inicio + periodo;					
-					if(fim+1 < registros.size()){
-						classificarExecutor.execute(
+	public void classificar(Hipotese hipotese,List<Registro> registros) {
+		classificarHipotese(hipotese,registros);
+	}
+	private  Hipotese classificarHipotese(Hipotese hipotese,List<Registro> registros) {		
+			try {											
+				int periodo = hipotese.getPeriodo();
+				if(periodo < registros.size()) {
+					Executors.newSingleThreadExecutor().execute(
 							new ClassificarHipotese()
-							.comDependencias(registros)
-							//.comHipotese(hipotese, random.nextInt(0, registros.size()))							
-							.comHipotese(hipotese, i)
+							.comDependencias(registros.subList(0, periodo+1))					
+							.comHipotese(hipotese)
 							);
-					}else{
-						break;
-					}
-				}				
-				try {
-					classificarExecutor.shutdown();
-					classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);
-					if(hipotese.getDown() == 0 || hipotese.getUp() == 0) {
-						hipotese.setDown(0.0);
-						hipotese.setUp(0.0);
-						hipotese.setIndice(0.0);
-					}else {
-						hipotese.setIndice(hipotese.getUp()-hipotese.getDown());
-					}
-				
-				
-				} catch (InterruptedException e) {
-					e.printStackTrace();					
-				}				
+					return classificarHipotese(hipotese, registros.subList(1, registros.size()));
+				}else {
+					return shutDown(hipotese);
+				}																						
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+			return null;
 	}
-	
+	private Hipotese shutDown(Hipotese hipotese) {
+		try {
+			classificarExecutor.shutdown();
+			classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);
+			if(hipotese.getDown() == 0 || hipotese.getUp() == 0) {
+				hipotese.setDown(0.0);
+				hipotese.setUp(0.0);
+				hipotese.setIndice(0.0);
+			}else {
+				hipotese.setIndice(hipotese.getUp()-hipotese.getDown());
+			}					
+		} catch (InterruptedException e) {
+			e.printStackTrace();					
+		}				
+		return hipotese;
+	}
 	private void inicializaCromossomo(Cromossomo c) {
 		c.setFatorDeCotacao(0.0);
 		c.setIndicadorDeCorrecaoDePreco(0.0);

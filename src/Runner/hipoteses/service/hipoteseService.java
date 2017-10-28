@@ -48,7 +48,7 @@ public void gerarHipoteseThread(String nomeEmpresa, int ano){
 		List<Registro> registros = registroRepo.getRegistroByEmpresa(empresa);
 		novo.setEmpresa(empresa);
 		novo.setCromossomos(gerarCromossomos(novo,ano));
-		selecao.classificarHipotese(novo,registros);																
+		selecao.classificar(novo,registros);																
 		save(novo);
 	}
 public synchronized void save(Hipotese novo){

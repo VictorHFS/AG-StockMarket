@@ -9,11 +9,9 @@ import Runner.historicos.Registro;
 
 public class ClassificarHipotese extends Thread{
 	Hipotese hipotese;
-	int i;
 	List<Registro> registros;
-	public ClassificarHipotese comHipotese(Hipotese hipotese, int i) {
+	public ClassificarHipotese comHipotese(Hipotese hipotese) {
 		this.setName("Classificar");
-		this.i = i;
 		this.hipotese = hipotese;
 		return this;
 	}
@@ -25,11 +23,9 @@ public class ClassificarHipotese extends Thread{
 	@Override
 	public void run() {
 		try {
-			List<Cromossomo> cromossomos = new ArrayList<Cromossomo>();					
-			int periodo = hipotese.getPeriodo();					
-			int inicio = i;
-			int fim = inicio + periodo;
-			for(int y = inicio; y < fim; y++) {
+			List<Cromossomo> cromossomos = new ArrayList<Cromossomo>();							
+			int fim = registros.size()-2;
+			for(int y = 0; y < fim ; y++) {
 				cromossomos.add(registros.get(y).getCromossomo());
 			}
 			Boolean lucro = registros.get(fim+1).getCromossomo().getPrecoDoUltimoNegocio() > registros.get(fim).getCromossomo().getPrecoDoUltimoNegocio();						
