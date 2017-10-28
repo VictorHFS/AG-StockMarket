@@ -36,18 +36,19 @@ public class app implements ApplicationRunner {
 		//System.out.flush();
 		//populacaoController.createPopulacao("SABESP");
 		//System.out.println(populacaoController.createPopulacao("PETRE",2015,1));		
+		/*
 		System.out.flush();
 		System.out.println(populacaoController.deleteAll());		
 		System.out.flush();
 		System.out.println(populacaoController.createPopulacao("POSITIVO IN",2015,5000));
-		System.out.flush();
+		//*/
+		///*
 		System.out.println(populacaoController.nextGen("POSITIVO IN",2015));
-		System.out.flush();
 		System.out.println(populacaoController.nextGen("POSITIVO IN",2015));
-		System.out.flush();
+		/*
 		System.out.println(populacaoController.nextGen("POSITIVO IN",2014));
-		System.out.flush();
 		System.out.println(populacaoController.nextGen("POSITIVO IN",2014));
+		//*/
 		//System.out.println(populacaoController.buscarPopulacao("PETRE"));
 		//*/
 	}

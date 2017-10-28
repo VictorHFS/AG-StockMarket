@@ -46,6 +46,8 @@ public class SelecaoService {
 						hipotese.setDown(0.0);
 						hipotese.setUp(0.0);
 						hipotese.setIndice(0.0);
+					}else {
+						hipotese.setIndice(hipotese.getUp()-hipotese.getDown());
 					}
 				
 				

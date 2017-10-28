@@ -23,7 +23,7 @@ public class mutacaoService {
 			if(hipotese.getPeriodo()>250) {
 				corte(hipotese);
 			}
-			if(random.nextInt(0, 100) <= 15) {
+			if(random.nextInt(0, 100) <= 5) {
 				int metodo = random.nextInt(0, 1);
 				switch(metodo) {
 				case 0: corte(hipotese);

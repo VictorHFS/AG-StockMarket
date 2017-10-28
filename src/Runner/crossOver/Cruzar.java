@@ -39,8 +39,7 @@ public class Cruzar extends Thread{
 			List<Cromossomo> resultado = new ArrayList<Cromossomo>();
 			resultado.addAll(cortar(hipotese.getCromossomo(), true));
 			resultado.addAll(cortar(auxiliar.getCromossomo(), false));
-			Hipotese novo = new Hipotese(resultado);
-			System.out.println(novo+" criado.");
+			Hipotese novo = new Hipotese(resultado);			
 			novo.setAno(hipotese.getAno());
 			novo.setEmpresa(hipotese.getEmpresa());
 			novo.setGeracao(hipotese.getGeracao()+1);
@@ -58,9 +57,14 @@ public class Cruzar extends Thread{
 		}
 		
 	}
-	public List<Cromossomo> cortar(List<Cromossomo> cromossomos, boolean inicio){
-		Hibernate.initialize(cromossomos);
-		int pontoDeCorte = random.nextInt(1,(int) (cromossomos.size()*0.7));
+	public List<Cromossomo> cortar(List<Cromossomo> cromossomos, boolean inicio){	
+		int max = 0;
+		if((int) (cromossomos.size()*0.7)>0) {
+			max = (int) (cromossomos.size()*0.7);
+		}else {
+			return cromossomos;
+		}
+		int pontoDeCorte = random.nextInt(1,max);
 		List<Cromossomo> resultado;
 		if(inicio) {
 			resultado = cromossomos.subList(0, pontoDeCorte);
