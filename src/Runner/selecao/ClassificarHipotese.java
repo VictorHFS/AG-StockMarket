@@ -64,9 +64,10 @@ public class ClassificarHipotese extends Thread{
 						+ DiferenciarDoubles(cromoHip.getPrecoMaximo(), cromossomo.getPrecoMaximo())
 						+ DiferenciarDoubles(cromoHip.getPrecoMedio(), cromossomo.getPrecoMedio())
 						+ DiferenciarDoubles(cromoHip.getPrecoMinimo(), cromossomo.getPrecoMinimo())
-						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());				
+						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());
+					indice = indice/14;
 				}
-				hipotese.setUp(indice/14);
+				hipotese.setUp(indice);
 			}else{
 				indice = hipotese.getDown();
 				if(indice == null) {indice = 0.0;}
@@ -85,7 +86,8 @@ public class ClassificarHipotese extends Thread{
 						+ DiferenciarDoubles(cromoHip.getPrecoMaximo(), cromossomo.getPrecoMaximo())
 						+ DiferenciarDoubles(cromoHip.getPrecoMedio(), cromossomo.getPrecoMedio())
 						+ DiferenciarDoubles(cromoHip.getPrecoMinimo(), cromossomo.getPrecoMinimo())
-						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());								
+						+ DiferenciarDoubles(cromoHip.getQuantidadeTotalDeTitulosNegociados(), cromossomo.getQuantidadeTotalDeTitulosNegociados());		
+					indice = indice/14;
 				}
 				hipotese.setDown(indice/14);
 			}						

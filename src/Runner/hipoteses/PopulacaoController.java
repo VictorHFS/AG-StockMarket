@@ -59,7 +59,7 @@ public class PopulacaoController {
 	@PostMapping("/test/{nomeEmpresa}/{ano}")
 	public ResponseEntity<String> nextGen(@PathVariable String nomeEmpresa,@PathVariable int ano) {
 		try {
-			for(int i = 0; i<10;i++){
+			for(int i = 0; i<5;i++){
 				System.out.println("Evoluindo para a "+i+1+"º geração...");
 				crossOver.proximaGeracao(nomeEmpresa, ano);		
 				System.out.println("Evolução concluida!");

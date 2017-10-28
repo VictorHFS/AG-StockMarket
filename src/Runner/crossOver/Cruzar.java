@@ -36,25 +36,22 @@ public class Cruzar extends Thread{
 	@Override
 	public void run() {
 		try {
-			System.out.println("hipotese: "+hipotese+" + auxiliar: "+auxiliar+" - iniciado.");
 			List<Cromossomo> resultado = new ArrayList<Cromossomo>();
 			resultado.addAll(cortar(hipotese.getCromossomo(), true));
 			resultado.addAll(cortar(auxiliar.getCromossomo(), false));
 			Hipotese novo = new Hipotese(resultado);
-			System.out.println("hipotese: "+hipotese+" + auxiliar: "+auxiliar+" - finalizado.");
 			System.out.println(novo+" criado.");
 			novo.setAno(hipotese.getAno());
 			novo.setEmpresa(hipotese.getEmpresa());
 			novo.setGeracao(hipotese.getGeracao()+1);
 			novo.setPeriodo(resultado.size());			
+			mutacao.mutar(novo);
 			selecao.classificarHipotese(novo, registros);
-			System.out.println(novo+" classificado.");
 			int count = 0;
 			if(novo.getIndice() == null) {
 				System.out.println("indice nulo!");
 			}
 			salvar(novo);
-			System.out.println(novo+" salvo.");
 			
 		}catch(Exception e) {
 			e.printStackTrace();

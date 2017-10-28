@@ -18,7 +18,6 @@ public class SelecaoService {
 	} 
 	public  void classificarHipotese(Hipotese hipotese,List<Registro> registros) {		
 			try {
-				int execuções = 0;
 				GeradorRandomico random = new GeradorRandomico();
 				ExecutorService classificarExecutor = Executors.newFixedThreadPool(10);										
 				int periodo = hipotese.getPeriodo();	
@@ -30,7 +29,6 @@ public class SelecaoService {
 					inicio = i;
 					fim = inicio + periodo;					
 					if(fim+1 < registros.size()){
-						execuções++;
 						classificarExecutor.execute(
 							new ClassificarHipotese()
 							.comDependencias(registros)
@@ -44,15 +42,10 @@ public class SelecaoService {
 				try {
 					classificarExecutor.shutdown();
 					classificarExecutor.awaitTermination(30, TimeUnit.MINUTES);
-					if(execuções == 0) {execuções = 1;}
 					if(hipotese.getDown() == 0 || hipotese.getUp() == 0) {
 						hipotese.setDown(0.0);
 						hipotese.setUp(0.0);
 						hipotese.setIndice(0.0);
-					}else {
-						hipotese.setUp(hipotese.getUp()/execuções );
-						hipotese.setDown(hipotese.getDown()/execuções);
-						hipotese.setIndice(hipotese.getUp() - hipotese.getDown());												
 					}
 				
 				
