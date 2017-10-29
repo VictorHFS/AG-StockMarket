@@ -49,9 +49,9 @@ public class PopulacaoController {
 		}
 		return ResponseEntity.ok().build();
 	}
-	@PostMapping("/test/{nomeEmpresa}/{data}")
-	public RelatorioDeDesempenho testDesempenho(@PathVariable String nomeEmpresa,@PathVariable String data) {
-		return desempenhoService.testarPopulacao(new Date(data), nomeEmpresa);
+	@PostMapping("/test/{nomeEmpresa}/{ano}")
+	public RelatorioDeDesempenho testDesempenho(@PathVariable String nomeEmpresa,@PathVariable int ano) {
+		return desempenhoService.testarPopulacao(ano, nomeEmpresa);
 	}
 	
 	@PostMapping("/test/{nomeEmpresa}/{ano}")
