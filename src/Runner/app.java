@@ -39,10 +39,11 @@ public class app implements ApplicationRunner {
 		//historicoController.gerarHistorico("C:/Users/Usuario/Desktop/2013.txt");		
 		//populacaoController.createPopulacao("PINE",2013,4000);
 		//System.out.println(populacaoController.createPopulacao("PETRE",2015,1));		
-		/*System.out.println(populacaoController.deleteAll());					
+		///*System.out.println(populacaoController.deleteAll());					
 		System.out.println(populacaoController.createPopulacao("POSITIVO IN",2015,1000));		
-		*/
-		//System.out.println(populacaoController.nextGen("POSITIVO IN",2015));			
+		//*/
+		/*
+		System.out.println(populacaoController.nextGen("POSITIVO IN",2015));			
 		RelatorioDeDesempenho rel = teste.testarPopulacao(2015, "POSITIVO IN");
 		System.out.println("acertos: "+rel.getAcertos());
 		System.out.println("erros: "+rel.getErros());
