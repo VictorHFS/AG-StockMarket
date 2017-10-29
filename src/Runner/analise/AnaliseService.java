@@ -26,7 +26,7 @@ public class AnaliseService {
 	private List<Cromossomo> historicos;
 	Hipotese atual;
 	public boolean analisarAcoes(List<Registro> registros,String nomeEmpresa){
-		//as hipoteses devem estar ordenadas por periodo
+		//as hipoteses devem estar ordenadas por periodo		
 		inicializaHistorico(registros);		 
 		Hipotese similar = detectarHipoteseSimilar(
 				hipoteseRepo.getHipoteseByEmpresaOrderByPeriodo(
@@ -53,6 +53,10 @@ public class AnaliseService {
 		return compararComDadosReais(hipotese);
 	}
 	private Hipotese detectarHipoteseSimilar(List<Hipotese> hipoteses){
+		if(hipoteses.get(0).getPeriodo()>historicos.size()) {
+			hipoteses.remove(0);
+			return detectarHipoteseSimilar(hipoteses);
+		}
 		if(hipoteses.size()>0) {
 			if(similaridade(atual)>similaridade(hipoteses.get(0))) {
 				hipoteses.remove(0);
