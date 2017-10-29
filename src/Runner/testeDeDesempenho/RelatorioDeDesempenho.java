@@ -1,6 +1,14 @@
 package Runner.testeDeDesempenho;
 
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class RelatorioDeDesempenho {
+	@Id
+	private UUID id;
 	private int acertos,erros,naoIdentificados;
 	private Double percentualDeLucro;
 	public void acertou() {
