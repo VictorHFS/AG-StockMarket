@@ -30,9 +30,9 @@ public class TesteDeDesempenho {
 	public RelatorioDeDesempenho testarPopulacao(int ano, String nomeEmpresa) {
 		List<Registro> registros = registroRepo.getRegistroByEmpresaAndAnoOrderByCromossomoDataCotacaoAsc(
 				empresaRepo.findOne(nomeEmpresa), ano);
-		for(int i = 0;i < registros.size();i++) {
+		for(int i = 2;i < registros.size();i++) {
 			if(analise.analisarAcoes(
-					registros.subList(registros.size()-1, registros.size())
+					registros.subList(registros.size()-i, registros.size())
 					, nomeEmpresa)) {
 				relatorio.acertou();
 			}else {

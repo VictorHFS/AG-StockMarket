@@ -4,6 +4,8 @@ import Runner.empresa.EmpresaController;
 import Runner.hipoteses.PopulacaoController;
 import Runner.historicos.HistoricoController;
 import Runner.historicos.RegistroController;
+import Runner.testeDeDesempenho.RelatorioDeDesempenho;
+import Runner.testeDeDesempenho.TesteDeDesempenho;
 
 import org.springframework.boot.SpringApplication;
 
@@ -21,6 +23,8 @@ public class app implements ApplicationRunner {
 	EmpresaController empresaController;
 	@Autowired
 	RegistroController registroController;
+	@Autowired
+	TesteDeDesempenho teste;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(app.class, args);
@@ -38,8 +42,10 @@ public class app implements ApplicationRunner {
 		/*System.out.println(populacaoController.deleteAll());					
 		System.out.println(populacaoController.createPopulacao("POSITIVO IN",2015,1000));		
 		*/
-		System.out.println(populacaoController.nextGen("POSITIVO IN",2015));			
-		
+		//System.out.println(populacaoController.nextGen("POSITIVO IN",2015));			
+		RelatorioDeDesempenho rel = teste.testarPopulacao(2015, "POSITIVO IN");
+		System.out.println("acertos: "+rel.getAcertos());
+		System.out.println("erros: "+rel.getErros());
 		//System.out.println(populacaoController.buscarPopulacao("PETRE"));
 		//*/
 	}

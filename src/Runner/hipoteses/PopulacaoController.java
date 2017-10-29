@@ -54,7 +54,7 @@ public class PopulacaoController {
 		return desempenhoService.testarPopulacao(ano, nomeEmpresa);
 	}
 	
-	@PostMapping("/test/{nomeEmpresa}/{ano}")
+	@PostMapping("/next/{nomeEmpresa}/{ano}")
 	public ResponseEntity<String> nextGen(@PathVariable String nomeEmpresa,@PathVariable int ano) {
 		try {
 			crossOver.proximaGeracao(nomeEmpresa, ano);			

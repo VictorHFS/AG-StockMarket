@@ -36,8 +36,8 @@ public class AnaliseService {
 		return lucro(similar);
 	}
 	private boolean lucro(Hipotese similar) {
-		int size = historicos.size();
-		return historicos.get(size-1).getPrecoDoUltimoNegocio() < historicos.get(size).getPrecoDoUltimoNegocio();
+		int size = historicos.size()-1;		
+		return historicos.get(size-1).getPrecoDoUltimoNegocio() < historicos.get(size).getPrecoDoUltimoNegocio();					
 	}
 	private void inicializaHistorico(List<Registro> registros) {
 		try {
@@ -52,12 +52,12 @@ public class AnaliseService {
 	private Double similaridade(Hipotese hipotese) {				
 		return compararComDadosReais(hipotese);
 	}
-	private Hipotese detectarHipoteseSimilar(List<Hipotese> hipoteses){
-		if(hipoteses.get(0).getPeriodo()>historicos.size()) {
-			hipoteses.remove(0);
-			return detectarHipoteseSimilar(hipoteses);
-		}
+	private Hipotese detectarHipoteseSimilar(List<Hipotese> hipoteses){		
 		if(hipoteses.size()>0) {
+			if(hipoteses.get(0).getPeriodo()>historicos.size()) {
+				hipoteses.remove(0);
+				return detectarHipoteseSimilar(hipoteses);
+			}
 			if(similaridade(atual)>similaridade(hipoteses.get(0))) {
 				hipoteses.remove(0);
 				return detectarHipoteseSimilar(hipoteses);
