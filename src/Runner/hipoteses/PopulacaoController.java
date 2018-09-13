@@ -22,7 +22,7 @@ public class PopulacaoController {
 	@Autowired
 	CrossOverService crossOver;
 	@Autowired
-	populacaoService populacaoService;
+	PopulacaoService populacaoService;
 	@Autowired
 	TesteDeDesempenho desempenhoService;
 	@PostMapping("/post/{nomeEmpresa}/{ano}/{tamanho}")

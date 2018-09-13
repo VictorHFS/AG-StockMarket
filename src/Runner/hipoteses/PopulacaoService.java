@@ -2,8 +2,8 @@ package Runner.hipoteses;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import Runner.hipoteses.service.hipoteseService;
 
 @Service
 @Transactional
-public class populacaoService {
+public class PopulacaoService {
 	@Autowired
 	hipoteseService hipoteseService;
 	@Autowired
@@ -22,41 +22,40 @@ public class populacaoService {
 	@Autowired
 	HipoteseRepository repository;
 	ExecutorService executor;
-	public populacaoService() {
+
+	public PopulacaoService() {
 		this.executor = Executors.newFixedThreadPool(6);
 	}
+
 	public long quantidadeDeHipoteses() {
 		return repository.count();
 	}
-	public void gerarPopulacaoThread(int tamanho,String nomeEmpresa, int ano) {
+
+	public void gerarPopulacaoThread(int tamanho, String nomeEmpresa, int ano) {
 		try {
 			for (int i = 0; i < tamanho; i++) {
-				executor.execute(new Thread() {
-					@Override 
-					public void run() {					
-						this.setName("Hipotese");
-						hipoteseService.gerarHipoteseThread(nomeEmpresa, ano);
-					}
-				});		
-			}	
-			executor.shutdown();
-			executor.awaitTermination(1, TimeUnit.HOURS);
-		}catch(Exception e) {
-			e.printStackTrace();
+				hipoteseService.gerarHipotese(nomeEmpresa, ano);
+			}
+		} catch (Exception e) {
+			String message = "Erro ao gerar Hipotese\n";
+			JOptionPane.showMessageDialog(null, message+e.getMessage());
 		}
-	}	
+	}
+
 	public void salvarPopulacao(Populacao novo) {
-		for(Hipotese h: novo.getAllMembers()) {
+		for (Hipotese h : novo.getAllMembers()) {
 			hipoteseService.salvarHipotese(h);
 		}
 	}
+
 	public Populacao buscarPopulacao(String nomeEmpresa) {
 		Populacao resultado = new Populacao();
 		resultado.addAll(hipoteseService.buscarHipotesesByEmpresa(nomeEmpresa));
 		return resultado;
 	}
+
 	public void deleteAll() {
 		hipoteseService.deleteAll();
-		
+
 	}
 }
