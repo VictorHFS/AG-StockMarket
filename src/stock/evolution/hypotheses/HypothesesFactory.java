@@ -19,7 +19,7 @@ public class HypothesesFactory {
 	@Autowired
 	RecordRepository registroRepo;
 	@Autowired
-	HipoteseRepository hipoteseRepo;
+	HypothesesRepository hipoteseRepo;
 	@Autowired
 	EmpresaService empresaService;
 	@Autowired

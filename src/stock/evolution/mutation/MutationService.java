@@ -1,4 +1,4 @@
-package stock.evolution.mutacao;
+package stock.evolution.mutation;
 
 import java.util.List;
 
@@ -7,28 +7,31 @@ import org.springframework.stereotype.Service;
 
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
+import stock.evolution.crossover.ChromosomeSplitter;
 import stock.evolution.hypotheses.Hypotheses;
 import stock.evolution.model.generator.GeradorRandomico;
 
 @Service
-public class mutacaoService {
+public class MutationService {
 	GeradorRandomico random;
 	@Autowired
 	RecordRepository repo;
-	public mutacaoService() {
+	@Autowired
+	ChromosomeSplitter splitter;
+	public MutationService() {
 		this.random = new GeradorRandomico();
 	}
 	public Hypotheses mutar(Hypotheses hipotese){
 		try {
 			if(hipotese.getPeriodo()>250) {
-				corte(hipotese);
+				splitter.split(hipotese);
 			}
 			if(random.nextInt(0, 100) <= 15) {
 				int metodo = random.nextInt(0, 1);
 				switch(metodo) {
-				case 0: corte(hipotese);
+				case 0: splitter.split(hipotese);
 				break;
-				case 1: substituicao(hipotese);
+				case 1: substitution(hipotese);
 				break;
 				}
 			}			
@@ -39,22 +42,7 @@ public class mutacaoService {
 		}
 		return hipotese;
 	}
-	public Hypotheses corte(Hypotheses hipotese) {
-		try {
-			boolean inicio = random.nextBool();
-			if(inicio) {
-				hipotese.setCromossomos(hipotese.getCromossomo().subList(0, random.nextInt(0, hipotese.getCromossomo().size())));			
-			}else {
-				hipotese.setCromossomos(hipotese.getCromossomo().subList(random.nextInt(0, hipotese.getCromossomo().size()-1), hipotese.getCromossomo().size()));
-			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	
-		return hipotese;
-	}
-	public Hypotheses substituicao(Hypotheses hipotese) {
+	public Hypotheses substitution(Hypotheses hipotese) {
 		try {
 			List<Record> registros = repo.getRegistroByEmpresa(hipotese.getEmpresa());				
 			hipotese.getCromossomo()

@@ -10,7 +10,7 @@ import stock.data.enterprise.Empresa;
 import stock.data.enterprise.EmpresaRepository;
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
-import stock.evolution.hypotheses.HipoteseRepository;
+import stock.evolution.hypotheses.HypothesesRepository;
 import stock.evolution.hypotheses.Hypotheses;
 
 @Service
@@ -18,7 +18,7 @@ public class TesteDeDesempenho {
 	@Autowired
 	RecordRepository registroRepo;
 	@Autowired
-	HipoteseRepository hipoteseRepo;
+	HypothesesRepository hipoteseRepo;
 	@Autowired
 	EmpresaRepository empresaRepo;
 	

@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/hipoteses")
-public class HipothesesController {
+public class HypothesesController {
 
 }

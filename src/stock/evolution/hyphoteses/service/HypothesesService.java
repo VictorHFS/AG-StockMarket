@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import stock.data.enterprise.Empresa;
 import stock.data.enterprise.EmpresaService;
 import stock.data.record.RecordRepository;
-import stock.evolution.hypotheses.HipoteseRepository;
+import stock.evolution.hypotheses.HypothesesRepository;
 import stock.evolution.hypotheses.Hypotheses;
 import stock.evolution.hypotheses.HypothesesFactory;
 import stock.evolution.model.generator.GeradorRandomico;
@@ -19,11 +19,11 @@ import stock.evolution.selecao.SelecaoService;
 
 @Service
 @Transactional
-public class hipoteseService {
+public class HypothesesService {
 	@Autowired
 	RecordRepository registroRepo;
 	@Autowired
-	HipoteseRepository hipoteseRepo;
+	HypothesesRepository hipoteseRepo;
 	@Autowired
 	EmpresaService empresaService;
 	@Autowired

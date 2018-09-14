@@ -1,6 +1,6 @@
 package stock.evolution.hyphoteses.service;
 
-public class GerarHipotese extends Thread {
+public class GenerateHypotheses extends Thread {
 	
 	
 	public void comDependencias() {
