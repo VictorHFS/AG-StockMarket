@@ -2,46 +2,45 @@ package stock.data.enterprise;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/empresas")
-public class EmpresaController {
+@Service
+@Transactional
+public class EnterpriseService {
 	@Autowired
-	EmpresaRepository repo;
-	@GetMapping
-	public List<Empresa> getAll(){
+	EnterpriseRepository repo;
+	
+	public Enterprise get(String id) {
+		return repo.getOne(id);
+	}
+	
+	public List<Enterprise> getAll(){
 		return repo.findAll();
 	}
-	@GetMapping("/{id}")
-	public Empresa get(@PathVariable String id) {
-		return repo.findOne(id);
-	}
-	@GetMapping("/exists/{id}")
+	
 	public Boolean exists(@PathVariable String id) {
 		return repo.exists(id);
 	}
-	@PostMapping
-	public void save(@RequestBody Empresa empresa) {
+	public void save(Enterprise empresa) {
 		repo.save(empresa);
 	}
-	@PatchMapping
-	public void update(@RequestBody Empresa empresa) {
+	
+	public void update(Enterprise empresa) {
 		repo.save(empresa);
 	}
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable String id) {
+	
+	public void delete(String id) {
 		repo.delete(id);
 	}
-	@DeleteMapping
 	public void deleteAll(){
 		repo.deleteAll();
 	}

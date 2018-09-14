@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import stock.AppConfig;
 import stock.concurrency.custom.FilaDeThreads;
-import stock.data.enterprise.EmpresaRepository;
+import stock.data.enterprise.EnterpriseRepository;
 import stock.data.extractor.layout.LayoutBovespa;
 import stock.data.extractor.reader.Leitor;
 import stock.data.record.Historic;
@@ -29,7 +29,7 @@ public class HistoricoService {
 	@Autowired
 	RecordRepository rRepo;
 	@Autowired
-	EmpresaRepository eRepo;	
+	EnterpriseRepository eRepo;	
 	@Autowired
 	FilaDeThreads fila;		
 	ExecutorService executor;

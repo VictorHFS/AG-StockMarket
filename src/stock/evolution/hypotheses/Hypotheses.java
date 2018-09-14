@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import stock.data.enterprise.Empresa;
+import stock.data.enterprise.Enterprise;
 import stock.evolution.model.chromosome.Cromossomo;
 
 @Entity
@@ -23,7 +23,7 @@ public class Hypotheses {
 	@Embedded
 	private List<Cromossomo> cromossomos;
 	@ManyToOne
-	private Empresa empresa;
+	private Enterprise empresa;
 	private Double indice,up,down;
 	private int geracao;
 	private int periodoInicio,periodoFim,periodo;
@@ -64,7 +64,7 @@ public class Hypotheses {
 		return cromossomos;
 	}
 
-	public Empresa getEmpresa() {
+	public Enterprise getEmpresa() {
 		return empresa;
 	}
 	
@@ -84,7 +84,7 @@ public class Hypotheses {
 		this.cromossomos = cromossomos;
 	}
 
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(Enterprise empresa) {
 		this.empresa = empresa;
 	}
 

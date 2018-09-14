@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import stock.data.enterprise.Empresa;
-import stock.data.enterprise.EmpresaService;
+import stock.data.enterprise.Enterprise;
+import stock.data.enterprise.EnterpriseService;
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
 import stock.evolution.model.chromosome.Cromossomo;
@@ -21,7 +21,7 @@ public class HypothesesFactory {
 	@Autowired
 	HypothesesRepository hipoteseRepo;
 	@Autowired
-	EmpresaService empresaService;
+	EnterpriseService empresaService;
 	@Autowired
 	SelecaoService selecaoService;
 	ExecutorService executor;
@@ -32,7 +32,7 @@ public class HypothesesFactory {
 		Hypotheses novo = new Hypotheses();
 		System.out.println(novo +" - iniciado!");
 		novo.setAno(ano);
-		Empresa empresa = empresaService.get(nomeEmpresa);
+		Enterprise empresa = empresaService.get(nomeEmpresa);
 		List<Record> registros = registroRepo.getRegistroByEmpresa(empresa);
 		novo.setEmpresa(empresa);
 		novo.setCromossomos(gerarCromossomos(novo,ano));

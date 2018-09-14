@@ -9,16 +9,16 @@ import javax.persistence.OneToMany;
 import stock.data.record.Record;
 
 @Entity
-public class Empresa {
+public class Enterprise {
 	@Id
 	private String nome;
 	@OneToMany(mappedBy="empresa")
 	private List<Record> registro;
 	
 	
-	public Empresa() {
+	public Enterprise() {
 	}
-	public Empresa(String nome) {
+	public Enterprise(String nome) {
 		this.nome = nome;
 	}
 	public String getNome() {

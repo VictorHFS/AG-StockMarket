@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import stock.data.enterprise.Empresa;
-import stock.data.enterprise.EmpresaService;
+import stock.data.enterprise.Enterprise;
+import stock.data.enterprise.EnterpriseService;
 import stock.data.record.RecordRepository;
 import stock.evolution.hypotheses.HypothesesRepository;
 import stock.evolution.hypotheses.Hypotheses;
@@ -25,7 +25,7 @@ public class HypothesesService {
 	@Autowired
 	HypothesesRepository hipoteseRepo;
 	@Autowired
-	EmpresaService empresaService;
+	EnterpriseService empresaService;
 	@Autowired
 	SelecaoService selecaoService;
 	@Autowired
@@ -55,7 +55,7 @@ public class HypothesesService {
 		hipoteseRepo.deleteAll();		
 	}
 
-	public List<Hypotheses> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
+	public List<Hypotheses> buscarHipotesesMaisAptasByEmpresa(Enterprise empresa) {	
 		try {
 			List<Hypotheses> hipoteses = hipoteseRepo.findTop200ByEmpresaOrderByIndiceDesc(empresa);			
 			return  hipoteses;			

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import stock.data.enterprise.EmpresaRepository;
+import stock.data.enterprise.EnterpriseRepository;
 import stock.data.record.RecordRepository;
 
 @Service
@@ -14,7 +14,7 @@ public class FilaDeThreads extends Thread{
 	@Autowired
 	RecordRepository rRepo;
 	@Autowired
-	EmpresaRepository eRepo;
+	EnterpriseRepository eRepo;
 	boolean alive;
 	int tamanho;
 	List<Thread> executando;
@@ -112,7 +112,7 @@ public class FilaDeThreads extends Thread{
 	public RecordRepository getRegistroRepo() {
 		return rRepo;
 	}
-	public EmpresaRepository getEmpresaRepo() {
+	public EnterpriseRepository getEmpresaRepo() {
 		return eRepo;
 	}
 }
