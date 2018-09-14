@@ -9,15 +9,15 @@ import java.util.UUID;
 
 public class LayoutBovespa {
 
-	public stock.data.extractor.layout.Registro tipoDeRegistro(String registro) {
+	public stock.data.extractor.layout.LayoutRecord tipoDeRegistro(String registro) {
 		if (registro.startsWith("00")) {
-			return stock.data.extractor.layout.Registro.Header;
+			return stock.data.extractor.layout.LayoutRecord.Header;
 		}
 		if (registro.startsWith("01")) {
-			return stock.data.extractor.layout.Registro.Contacao;
+			return stock.data.extractor.layout.LayoutRecord.Contacao;
 		}
 		if (registro.startsWith("99")) {
-			return stock.data.extractor.layout.Registro.Trailer;
+			return stock.data.extractor.layout.LayoutRecord.Trailer;
 		}
 		return null;
 	}

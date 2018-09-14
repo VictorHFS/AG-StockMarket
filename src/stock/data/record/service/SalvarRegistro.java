@@ -59,7 +59,7 @@ public class SalvarRegistro extends Thread{
 	private Record estruturarRegistro(String registro) throws Exception {		
 		LayoutBovespa layout = new LayoutBovespa();
 		Cromossomo crom;
-		if(layout.tipoDeRegistro(registro) == stock.data.extractor.layout.Registro.Contacao) {
+		if(layout.tipoDeRegistro(registro) == stock.data.extractor.layout.LayoutRecord.Contacao) {
 			Date dataCotacao = layout.dataCotacao(registro);
 			Date dataDeVencimento = layout.dataDeVencimento(registro);				
 			crom = new Cromossomo(layout.nomeResCotacao(registro), (double) layout.fatorDeCotacao(registro),(double) layout.indicadorDeCorrecaoDePreco(registro),
