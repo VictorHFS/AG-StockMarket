@@ -3,55 +3,47 @@ package stock.evolution.selecao;
 import java.util.ArrayList;
 import java.util.List;
 
+import stock.data.record.Historic;
 import stock.data.record.Record;
-import stock.evolution.hypotheses.Hypotheses;
-import stock.evolution.model.chromosome.Cromossomo;
+import stock.evolution.hypotheses.Hypoteses;
+import stock.evolution.model.chromosome.Chromossome;
 
-public class ClassificarHipotese extends Thread{
-	Hypotheses hipotese;
-	int i;
-	List<Record> registros;
-	public ClassificarHipotese comHipotese(Hypotheses hipotese, int i) {
-		this.setName("Classificar");
-		this.i = i;
-		this.hipotese = hipotese;
-		return this;
-	}
-	public ClassificarHipotese comDependencias(List<Record> registros) {
-		this.registros = registros;
-		return this;
-	}
+public class ClassificadorDeHipotese implements Runnable{
+	private Hypoteses hipotese;
+	private int inicio;
+	private final Historic historic = Historic.getInstance();
 	
 	@Override
 	public void run() {
 		try {
-			List<Cromossomo> cromossomos = new ArrayList<Cromossomo>();					
-			int periodo = hipotese.getPeriodo();					
-			int inicio = i;
-			int fim = inicio + periodo;
+			List<Chromossome> chromossomes = new ArrayList<Chromossome>();					
+			int numeroDeTransacoes = hipotese.getNumeroTransacoes();
+			List<Record> records = historic.getAllRecords();
+			int fim = inicio + numeroDeTransacoes;
 			for(int y = inicio; y < fim; y++) {
-				cromossomos.add(registros.get(y).getCromossomo());
+				chromossomes.add(records.get(y).getCromossomo());
 			}
-			Boolean lucro = registros.get(fim+1).getCromossomo().getPrecoDoUltimoNegocio() > registros.get(fim).getCromossomo().getPrecoDoUltimoNegocio();						
-			classificaHipotese(hipotese,cromossomos,lucro);						
+			Boolean lucro = records.get(fim+1).getCromossomo().getPrecoDoUltimoNegocio() > records.get(fim).getCromossomo().getPrecoDoUltimoNegocio();						
+			classificaHipotese(hipotese,chromossomes,lucro);						
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private void classificaHipotese(Hypotheses hipotese, List<Cromossomo> cromossomos,Boolean lucro) {
+	private void classificaHipotese(Hypoteses hipotese, Boolean lucro) {
+		List<Chromossome> chromossomes = historic.getAllCromossomes();
 		try {
-			Cromossomo cromoHip,cromossomo;			
+			Chromossome cromoHip,cromossomo;			
 			Double indice;
 			if(lucro) {
 				indice = hipotese.getUp();
 				if(indice == null) {indice = 0.0;}
-				for(int i = 0; i< cromossomos.size();i++){
-					if(hipotese.getCromossomo().size()< cromossomos.size()) {
+				for(int i = 0; i< chromossomes.size();i++){
+					if(hipotese.getCromossomos().size()< chromossomes.size()) {
 						System.out.println("erro");
 					}
-					cromossomo = cromossomos.get(i);
-					cromoHip = hipotese.getCromossomo().get(i);
+					cromossomo = chromossomes.get(i);
+					cromoHip = hipotese.getCromossomos().get(i);
 					indice = indice + DiferenciarDoubles(cromoHip.getFatorDeCotacao(), cromossomo.getFatorDeCotacao())
 						+ DiferenciarDoubles(cromoHip.getIndicadorDeCorrecaoDePreco(), cromossomo.getIndicadorDeCorrecaoDePreco())
 						+ DiferenciarDoubles(cromoHip.getNumeroDeNegociacoes(), cromossomo.getNumeroDeNegociacoes())
@@ -70,9 +62,9 @@ public class ClassificarHipotese extends Thread{
 			}else{
 				indice = hipotese.getDown();
 				if(indice == null) {indice = 0.0;}
-				for(int i = 0; i< cromossomos.size();i++){
-					cromossomo = cromossomos.get(i);
-					cromoHip = hipotese.getCromossomo().get(i);
+				for(int i = 0; i< chromossomes.size();i++){
+					cromossomo = chromossomes.get(i);
+					cromoHip = hipotese.getCromossomos().get(i);
 					indice = indice + DiferenciarDoubles(cromoHip.getFatorDeCotacao(), cromossomo.getFatorDeCotacao())
 						+ DiferenciarDoubles(cromoHip.getIndicadorDeCorrecaoDePreco(), cromossomo.getIndicadorDeCorrecaoDePreco())
 						+ DiferenciarDoubles(cromoHip.getNumeroDeNegociacoes(), cromossomo.getNumeroDeNegociacoes())

@@ -1,58 +1,60 @@
 package stock.evolution.mutation;
 
+import static stock.evolution.mutation.MutationException.createException;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
-import stock.evolution.crossover.ChromosomeSplitter;
-import stock.evolution.hypotheses.Hypotheses;
+import stock.evolution.hypotheses.Hypoteses;
+import stock.evolution.model.chromosome.Chromossome;
 import stock.evolution.model.generator.GeradorRandomico;
 
 @Service
 public class MutationService {
+	private static final int SEPARATE = 1;
+	private static final int SPLIT = 0;
 	GeradorRandomico random;
 	@Autowired
 	RecordRepository repo;
-	@Autowired
-	ChromosomeSplitter splitter;
 	public MutationService() {
 		this.random = new GeradorRandomico();
 	}
-	public Hypotheses mutar(Hypotheses hipotese){
+	public Hypoteses mutar(Hypoteses hipotese) {
 		try {
-			if(hipotese.getPeriodo()>250) {
-				splitter.split(hipotese);
+			if(hipotese.getNumeroTransacoes()>250) {
+				hipotese.split();
 			}
 			if(random.nextInt(0, 100) <= 15) {
 				int metodo = random.nextInt(0, 1);
 				switch(metodo) {
-				case 0: splitter.split(hipotese);
+				case SPLIT: hipotese.split();
 				break;
-				case 1: substitution(hipotese);
+				case SEPARATE: substitution(hipotese);
 				break;
 				}
-			}			
-			hipotese.setPeriodo(hipotese.getCromossomo().size());
+			}
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw createException(e);
 		}
 		return hipotese;
 	}
-	public Hypotheses substitution(Hypotheses hipotese) {
+	
+	public Hypoteses substitution(Hypoteses hipotese) {
 		try {
-			List<Record> registros = repo.getRegistroByEmpresa(hipotese.getEmpresa());				
-			hipotese.getCromossomo()
-					.set(random.nextInt(0, hipotese.getCromossomo().size()),
-						registros.get(random.nextInt(0, registros.size()))
-						.getCromossomo()
-						);
+			List<Record> registros = repo.getRegistroByEmpresa(hipotese.getEmpresa());
+			Stream<Chromossome> cromossomes = registros.stream().map(Record::getCromossomo);
+			int size = new Long(cromossomes.count()).intValue();
+			int randomInt = random.nextInt(0, size);
+			Chromossome randomCromo = registros.get(randomInt).getCromossomo();
+			hipotese.setGeneAt(randomInt, randomCromo);
+			return hipotese;
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw createException(e);
 		}
-		return hipotese;
 	}
 }

@@ -9,12 +9,11 @@ import org.springframework.stereotype.Repository;
 import stock.data.enterprise.Empresa;
 
 @Repository
-public interface HypothesesRepository extends JpaRepository<Hypotheses, String> {
+public interface HypothesesRepository extends JpaRepository<Hypoteses, String> {
 	
-	List<Hypotheses> getHipoteseByEmpresa(Empresa empresa);
-	List<Hypotheses> getHipoteseFirst100ByEmpresaOrderByIndiceDesc(Empresa empresa);
-	List<Hypotheses> findTop200ByEmpresaOrderByIndiceDesc(Empresa empresa);	
-	List<Hypotheses> getHipoteseByEmpresaOrderByPeriodo(Empresa empresa);
+	List<Hypoteses> getHipoteseByEmpresa(Empresa empresa);
+	List<Hypoteses> getHipoteseFirst100ByEmpresaOrderByIndiceDesc(Empresa empresa);
+	List<Hypoteses> findTop200ByEmpresaOrderByIndiceDesc(Empresa empresa);	
 	List<UUID> getIdFirst100ByEmpresaOrderByIndiceDesc(Empresa empresa);
-	Hypotheses getById(UUID id);
+	Hypoteses getById(UUID id);
 }

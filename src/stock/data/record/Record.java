@@ -6,10 +6,9 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import stock.data.enterprise.Empresa;
-import stock.evolution.model.chromosome.Cromossomo;
+import stock.evolution.model.chromosome.Chromossome;
 
 @Entity
 public class Record {
@@ -17,7 +16,7 @@ public class Record {
 	private String id;
 		
 	@Embedded
-	private Cromossomo cromossomo;
+	private Chromossome cromossomo;
 	
 	@ManyToOne
 	private Empresa empresa;
@@ -27,7 +26,7 @@ public class Record {
 	@SuppressWarnings("unused")
 	private Record() {
 	}
-	public Record(String id, Cromossomo c) {
+	public Record(String id, Chromossome c) {
 		this.id = id;
 		this.empresa = new Empresa(c.getNomeDaEmpresa());
 		Calendar ano = Calendar.getInstance();
@@ -36,7 +35,7 @@ public class Record {
 		cromossomo = c;
 	}
 
-	public Cromossomo getCromossomo() throws Exception {
+	public Chromossome getCromossomo() {
 		return cromossomo;
 	}
 	
@@ -49,7 +48,7 @@ public class Record {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setCromossomo(Cromossomo cromossomo) {
+	public void setCromossomo(Chromossome cromossomo) {
 		Calendar ano = Calendar.getInstance();
 		ano.setTime(cromossomo.getDataCotacao());
 		this.ano = ano.get(Calendar.YEAR);

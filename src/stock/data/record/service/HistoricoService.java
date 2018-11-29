@@ -21,7 +21,7 @@ import stock.data.extractor.reader.Leitor;
 import stock.data.record.Historic;
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
-import stock.evolution.model.chromosome.Cromossomo;
+import stock.evolution.model.chromosome.Chromossome;
 
 @Service
 @Transactional

@@ -5,7 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Cromossomo {
+public class Chromossome {
 	@Column(name="nomeEmpresa")
 	private String nomeDaEmpresa;
 	private Date dataCotacao;
@@ -14,10 +14,10 @@ public class Cromossomo {
 				precoDaMelhorOfertaDeCompra, precoDaMelhorOfertaDeVenda, precoDeAbertura, 
 				precoDeExercicioEmPontos, precoDeExercicios, precoDoUltimoNegocio, 
 				precoMaximo, precoMedio, precoMinimo, quantidadeTotalDeTitulosNegociados;
-	public Cromossomo() {
+	public Chromossome() {
 		
 	}
-	public Cromossomo(String nome, 
+	public Chromossome(String nome, 
 			Double fatorDeCotacao,Double indicadorDeCorrecaoDePreco,Double numeroDeNegociacoes,
 			Double precoDaMelhorOfertaDeCompra,Double precoDaMelhorOfertaDeVenda,Double precoDeAbertura,
 			Double precoDeExercicioEmPontos,Double precoDeExercicios,Double precoDoUltimoNegocio,

@@ -2,23 +2,22 @@ package stock.evolution.model.generator;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class GeradorRandomico   {
 
+	@Autowired
+	private Random rand;
 	
 	public int nextInt(int minInclusive, int maxExclusive) {
-		// TODO Auto-generated method stub
-		Random rand = new Random();
 		return rand.nextInt(maxExclusive) + minInclusive;
 	}
 
 	public double nextDouble() {
-		// TODO Auto-generated method stub
-		Random rand = new Random();
 		return rand.nextDouble();
 	}
 	
 	public boolean nextBool() {
-		Random rand = new Random();
 		return rand.nextBoolean();		
 	}
 

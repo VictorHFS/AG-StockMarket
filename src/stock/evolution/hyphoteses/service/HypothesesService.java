@@ -12,7 +12,8 @@ import stock.data.enterprise.Empresa;
 import stock.data.enterprise.EmpresaService;
 import stock.data.record.RecordRepository;
 import stock.evolution.hypotheses.HypothesesRepository;
-import stock.evolution.hypotheses.Hypotheses;
+import stock.evolution.EvolutionPool;
+import stock.evolution.hypotheses.Hypoteses;
 import stock.evolution.hypotheses.HypothesesFactory;
 import stock.evolution.model.generator.GeradorRandomico;
 import stock.evolution.selecao.SelecaoService;
@@ -33,35 +34,22 @@ public class HypothesesService {
 	@Autowired
 	ExecutorService executor;
 	
+	EvolutionPool pool = EvolutionPool.getInstance();
+	
 	GeradorRandomico gerador = new GeradorRandomico();
 
-	public void gerarHipotese(String nomeEmpresa, int ano) {
-		executor.execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				factory.criar(nomeEmpresa, ano);
-			}
-		});
-	}
-	
-	public void salvarHipotese(Hypotheses h) {
+	public void salvarHipotese(Hypoteses h) {
 		hipoteseRepo.save(h);
 	}
-	public List<Hypotheses> buscarHipotesesByEmpresa(String nomeEmpresa) {
+	public List<Hypoteses> buscarHipotesesByEmpresa(String nomeEmpresa) {
 		return hipoteseRepo.getHipoteseByEmpresa(empresaService.get(nomeEmpresa));		
 	}
 	public void deleteAll() {
 		hipoteseRepo.deleteAll();		
 	}
 
-	public List<Hypotheses> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
-		try {
-			List<Hypotheses> hipoteses = hipoteseRepo.findTop200ByEmpresaOrderByIndiceDesc(empresa);			
-			return  hipoteses;			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	public List<Hypoteses> buscarHipotesesMaisAptasByEmpresa(Empresa empresa) {	
+		List<Hypoteses> hipoteses = pool.getMostAptHypoteses();			
+		return  hipoteses;
 	}
 }
