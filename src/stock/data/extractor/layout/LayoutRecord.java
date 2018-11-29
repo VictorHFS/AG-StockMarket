@@ -1,5 +1,5 @@
 package stock.data.extractor.layout;
 
-public enum Registro {
+public enum LayoutRecord {
 	Header, Contacao, Trailer;
 }

@@ -1,7 +1,7 @@
 package stock;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import stock.data.enterprise.EmpresaController;
+import stock.data.enterprise.EnterpriseController;
 import stock.data.record.HistoricController;
 import stock.data.record.RecordController;
 
@@ -16,7 +16,7 @@ public class app implements ApplicationRunner {
 	@Autowired
 	HistoricController historicoController;
 	@Autowired
-	EmpresaController empresaController;
+	EnterpriseController empresaController;
 	@Autowired
 	RecordController registroController;
 	

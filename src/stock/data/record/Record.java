@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import stock.data.enterprise.Empresa;
+import stock.data.enterprise.Enterprise;
 import stock.evolution.model.chromosome.Chromossome;
 
 @Entity
@@ -19,7 +19,7 @@ public class Record {
 	private Chromossome cromossomo;
 	
 	@ManyToOne
-	private Empresa empresa;
+	private Enterprise empresa;
 
 	private int ano;
 	
@@ -28,7 +28,7 @@ public class Record {
 	}
 	public Record(String id, Chromossome c) {
 		this.id = id;
-		this.empresa = new Empresa(c.getNomeDaEmpresa());
+		this.empresa = new Enterprise(c.getNomeDaEmpresa());
 		Calendar ano = Calendar.getInstance();
 		ano.setTime(c.getDataCotacao());
 		this.ano = ano.get(Calendar.YEAR);
@@ -42,7 +42,7 @@ public class Record {
 	public String getId() {
 		return this.id;
 	}
-	public Empresa getEmpresa() {
+	public Enterprise getEmpresa() {
 		return empresa;
 	}
 	public void setId(String id) {
@@ -54,7 +54,7 @@ public class Record {
 		this.ano = ano.get(Calendar.YEAR);
 		this.cromossomo = cromossomo;
 	}
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(Enterprise empresa) {
 		this.empresa = empresa;
 	}
 	public int getAno() {

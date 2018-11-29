@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import stock.data.enterprise.Empresa;
+import stock.data.enterprise.Enterprise;
 
 @Repository
 public interface HypothesesRepository extends JpaRepository<Hypoteses, String> {

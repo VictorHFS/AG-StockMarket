@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans ...>
-	<bean id="salvarregistro" class="Runner.historicos.factory">
-		<property name="factoryId" value="9090"/>
-		<property name="salvarRegistroId" value="1"/>
-		<property name="registro" value="registro id teste"/>
-	</bean>
-</beans>

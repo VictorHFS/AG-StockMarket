@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import stock.data.enterprise.Empresa;
-import stock.data.enterprise.EmpresaService;
+import stock.data.enterprise.Enterprise;
+import stock.data.enterprise.EnterpriseService;
 import stock.data.record.Historic;
 import stock.data.record.RecordRepository;
 import stock.evolution.model.chromosome.Chromossome;
@@ -24,8 +24,7 @@ public class HypothesesFactory {
 	HypothesesRepository hipoteseRepo;
 
 	@Autowired
-	EmpresaService empresaService;
-
+	EnterpriseService empresaService;
 	@Autowired
 	SelecaoService selecaoService;
 

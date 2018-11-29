@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: StockMarket-Web
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: victor
+Built-By: Jeferson
 Implementation-Vendor-Id: StockMarket-AG
-Build-Jdk: 1.8.0_181
+Build-Jdk: 1.8.0_101
 Implementation-URL: http://projects.spring.io/spring-boot/StockMarket-
  AG/
 Created-By: Maven Integration for Eclipse

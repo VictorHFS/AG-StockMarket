@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.context.annotation.Scope;
 
-import stock.data.enterprise.EmpresaRepository;
+import stock.data.enterprise.EnterpriseRepository;
 import stock.data.extractor.layout.LayoutBovespa;
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class SalvarRegistro extends Thread{
 	RecordRepository rRepo;
-	EmpresaRepository eRepo;
+	EnterpriseRepository eRepo;
 	String registro;
 	
-	public SalvarRegistro comDependencias(RecordRepository rRepo, EmpresaRepository eRepo) {
+	public SalvarRegistro comDependencias(RecordRepository rRepo, EnterpriseRepository eRepo) {
 		this.rRepo = rRepo;
 		this.eRepo = eRepo;
 		return this;

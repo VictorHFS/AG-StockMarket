@@ -7,8 +7,8 @@ import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import stock.data.enterprise.Empresa;
-import stock.data.enterprise.EmpresaRepository;
+import stock.data.enterprise.Enterprise;
+import stock.data.enterprise.EnterpriseRepository;
 import stock.data.record.Record;
 import stock.data.record.RecordRepository;
 import stock.evolution.hypotheses.HypothesesRepository;
@@ -21,7 +21,7 @@ public class TesteDeDesempenho {
 	@Autowired
 	HypothesesRepository hipoteseRepo;
 	@Autowired
-	EmpresaRepository empresaRepo;
+	EnterpriseRepository empresaRepo;
 	
 	private RelatorioDeDesempenho relatorio;	
 	public TesteDeDesempenho() {
